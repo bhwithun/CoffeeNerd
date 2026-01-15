@@ -1,46 +1,191 @@
 # Coffee Nerd - Profile Tab Description
 
 ## Tab Overview
-The Profile Tab acts as the app's personalization and configuration center, allowing users to customize their experience with avatars, names, themes, and font sizes, while providing access to settings and about information. Accessed via the bottom tab bar (icon: avatar silhouette with "Leather" framing and "Brass" outline, or a person icon with metallic accents), it presents a simple, vertically scrollable form-like layout drawing from local storage for instant, offline adjustments. This tab evokes a personalized frontispiece in a leather-bound coffee journal, featuring "Old Paper" backgrounds with subtle "Coffee Ring" stains, "Leather" textures on sections and buttons, and "Brass" highlights on selectors and icons, fostering a premium, library-inspired customization space that aligns with the app's privacy-centric ethos.
+The Profile Tab serves as a placeholder screen for user settings and personalization. Currently implemented as a basic Material 3 layout providing a foundation for future user profile management, theme settings, and app preferences.
 
-All changes save locally via SQLite, with no data transmission. The tab integrates Settings & About as a nested or expandable section, keeping the interface minimalist and accessible through scalable elements, high-contrast options, and haptic feedback on updates. It serves as a low-frequency utility tab, enhancing overall usability without core feature overlap.
+## Implementation Status: 🔄 PLACEHOLDER IMPLEMENTED
 
-## Key Components
-- **Avatar Selection**:
-  - Grid picker of fun coffee-themed cartoon avatars (e.g., animated beans, mugs, baristas; stored as local PNG/SVG assets with "Brass" borders).
-  - Option to upload custom photo from device gallery/camera (circular crop, compressed <1MB, framed with "Leather" edging).
-  - Current avatar displayed prominently at top (e.g., large circle with old paper background).
+### Current Implementation:
+- **Material 3 Column layout** with scrollable content
+- **Basic settings structure** with placeholder options
+- **Consistent theming** with coffee colors and typography
+- **Navigation integration** with bottom tab bar
 
-- **Name Field**:
-  - Optional free-text input for user name (e.g., "Brian the Coffee Nerd"), with placeholder prompt on "Old Paper" texture.
-  - Used for subtle personalization (e.g., journal headers if implemented), but fully optional.
+### Key Components (Currently Implemented):
+- **Column layout** with proper scrolling
+- **Material 3 Cards** for settings sections
+- **Text elements** and basic interactive elements
+- **Proper spacing** following Material 3 guidelines
 
-- **Theme Preference Selector**:
-  - Segmented control or radio buttons (brass-styled) for Light, Dark, or System modes.
-  - Instant preview: Applies changes app-wide with a subtle fade animation and haptic confirmation.
+### Future Implementation Planned:
+- **User avatar selection** with coffee-themed options
+- **Theme switching** (light/dark/system)
+- **Font size adjustment** with accessibility scaling
+- **App preferences** and personalization options
+- **About & privacy** information section
+- **Local data management** and export options
 
-- **Font Size Selector**:
-  - Slider or dropdown (leather-textured) with options: Small, Default, Large, Extra Large.
-  - Dynamic scaling applies immediately, ensuring accessibility compliance.
+## Technical Implementation
 
-- **Settings & About Section**:
-  - Expandable accordion or nested navigation link (brass arrow icon).
-  - Appearance settings (redundant with theme/font for quick access).
-  - About page details:
-    - App name & version (dynamic from build info).
-    - Install date & source (queried locally).
-    - Privacy statements: “All data stored locally on this device” and “No data collected or transmitted” (static text with emphasis).
-    - Privacy policy link (opens external browser if URL provided).
-    - Credits (e.g., developers, libraries; scrollable list on old paper).
+### **Current Code Structure**:
+```kotlin
+@Composable
+fun ProfileScreen() {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        // Header Section
+        item {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
+            ) {
+                Column(
+                    modifier = Modifier.padding(24.dp),
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    // Placeholder avatar
+                    Box(
+                        modifier = Modifier
+                            .size(80.dp)
+                            .background(
+                                color = MaterialTheme.colorScheme.primary,
+                                shape = CircleShape
+                            ),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Person,
+                            contentDescription = "Profile Avatar",
+                            modifier = Modifier.size(40.dp),
+                            tint = MaterialTheme.colorScheme.onPrimary
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Text(
+                        text = "Coffee Profile",
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Personalize your coffee experience",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant,
+                        textAlign = TextAlign.Center
+                    )
+                }
+            }
+        }
 
-- **Empty/Custom States**:
-  - Default view shows placeholders (e.g., generic avatar with coffee ring stain) and gentle prompts to personalize.
+        // Settings Sections
+        val settingsItems = listOf(
+            "Theme Settings" to "Light, Dark, or System theme",
+            "Font Size" to "Adjust text size for readability",
+            "Notifications" to "Coffee discovery alerts",
+            "Privacy" to "Data and privacy preferences",
+            "About" to "App version and information"
+        )
 
-## User Interactions
-- **Core Flow**: Switch to Profile → View current settings → Edit avatar (grid modal or picker) → Update name/theme/font → Changes apply instantly with haptic; navigate to Settings for deeper info.
-- **Personalization Flow**: Select avatar → Confirm upload/crop (haptic on save); adjust theme → App refreshes visually.
-- **Cross-Tab Links**: Minimal; theme/font changes propagate globally, affecting all tabs without navigation.
-- **Error Handling**: Photo upload failures (e.g., permissions): Prompt modal with settings link; invalid inputs gracefully ignored.
-- **Performance**: Lightweight local reads/writes; no heavy computations for snappy response.
+        items(settingsItems) { (title, subtitle) ->
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant
+                )
+            ) {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(16.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
+                        Text(
+                            text = title,
+                            style = MaterialTheme.typography.titleMedium,
+                            color = MaterialTheme.colorScheme.onSurface
+                        )
+                        Spacer(modifier = Modifier.height(2.dp))
+                        Text(
+                            text = subtitle,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                        )
+                    }
+                    Icon(
+                        imageVector = Icons.Default.ChevronRight,
+                        contentDescription = "Navigate to $title",
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        }
+    }
+}
+```
 
-This tab empowers user-driven customization, weaving thematic design with practical controls for a tailored, fully private app experience.
+## User Experience (Current)
+
+### **What Users See**:
+- Profile header with placeholder avatar
+- Scrollable list of settings categories
+- Clean, organized layout with proper visual hierarchy
+- Consistent Material 3 styling and coffee theming
+
+### **Settings Categories Preview**:
+- Theme Settings (light/dark mode switching)
+- Font Size (accessibility scaling)
+- Notifications (coffee-related alerts)
+- Privacy (data management)
+- About (app information)
+
+## Future Features (Not Yet Implemented)
+
+### **Planned Functionality**:
+- **Avatar Customization**: Coffee-themed avatar selection
+- **Theme Switching**: Light, dark, and system preference modes
+- **Typography Scaling**: Small, default, large, extra-large options
+- **Notification Settings**: Customizable alerts and preferences
+- **Privacy Controls**: Data export, local storage management
+- **About Section**: Version info, credits, privacy policy
+
+### **Integration Points**:
+- **Global Settings**: Theme and font changes affect all tabs
+- **Accessibility**: System-wide accessibility preferences
+- **Data Management**: Export/import user data and preferences
+
+## Design Consistency
+
+- **Material 3 Components**: Cards, lists, icons, typography
+- **Coffee Theme**: Consistent colors and personalization focus
+- **Responsive Design**: Adapts to different screen sizes
+- **Touch-Friendly**: Proper spacing for mobile interaction
+
+## Performance Considerations
+
+- **Lightweight Settings**: Local preference storage
+- **Efficient Rendering**: Lazy loading for settings lists
+- **Minimal Resources**: Text and icon-based interface
+- **Fast Loading**: Instant access to preferences
+
+## Accessibility Features
+
+- **Screen Reader Support**: Descriptive labels and content
+- **Scalable Typography**: System font size compatibility
+- **High Contrast**: Readable text and icon colors
+- **Keyboard Navigation**: Focus management for all controls
+
+## Data Management (Future)
+
+- **SharedPreferences**: Local settings storage
+- **Theme Persistence**: Remember user theme choice
+- **Preference Backup**: Optional cloud synchronization
+- **Privacy Compliance**: Local-only data storage
+
+This placeholder implementation establishes the foundation for comprehensive user personalization while maintaining the app's design consistency and user experience standards.

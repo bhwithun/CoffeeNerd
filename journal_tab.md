@@ -1,47 +1,139 @@
 # Coffee Nerd - Journal Tab Description
 
 ## Tab Overview
-The Journal Tab functions as the app's personal logging center, where users can review, edit, and add detailed visit notes for coffee shops, creating a chronological record of their coffee adventures. Accessed via the bottom tab bar (icon: notebook with "Leather" binding and "Brass" clasp accents), it presents a scrollable feed of entries sorted by date (newest first), drawing from local SQLite storage for complete offline access. This tab captures the essence of a vintage coffee diary, with "Old Paper" backgrounds adorned by faint "Coffee Ring" stains, "Leather" textures on entry cards, and "Brass" highlights on ratings and tags, evoking a well-thumbed leather-bound journal from a cozy library nook.
+The Journal Tab serves as a placeholder screen for coffee visit logging and notes. Currently implemented as a basic Material 3 layout demonstrating the app's design system and providing a foundation for future journaling functionality.
 
-The layout is clean and focused: a full-screen list with a floating "Add New Visit" button for quick entries (tied to a shop or standalone). It supports accessibility through scalable fonts, high-contrast elements, and haptic feedback on actions like saving or deleting notes. Integration with other tabs allows seamless navigation, such as jumping to a shop's map view, reinforcing the app's interconnected, privacy-first ecosystem.
+## Implementation Status: 🔄 PLACEHOLDER IMPLEMENTED
 
-## Key Components
-- **Chronological Feed**:
-  - Vertical list of visit cards, using native list views for smooth scrolling.
-  - Each card: "Old Paper" base with "Coffee Ring" overlays, "Leather" borders, and expandable sections.
-  - Display: Date (prominent, brass-formatted), shop name/address (linked to map), drink ordered (headline), rating (brass stars), taste tags (chip-style, multi-colored for flavors), snippet of notes, and photo thumbnails (carousel if multiple, compressed <1MB).
-  - Sorting: Default by date; optional filters for shop, rating, or tags via top dropdown (leather-textured).
+### Current Implementation:
+- **Material 3 List layout** with proper scrolling
+- **Basic screen structure** with placeholder content
+- **Consistent theming** with coffee colors and typography
+- **Navigation integration** with bottom tab bar
 
-- **Add/Edit Visit Form**:
-  - Modal or full-screen sheet triggered by floating button or from other tabs (pre-populated with shop data).
-  - Fields:
-    - Date: Auto-populated (editable).
-    - Shop: Dropdown/search from discovered/favorited places or manual entry.
-    - Drink Ordered: Free-text input.
-    - Rating: 1-5 star selector (brass icons with haptic on tap).
-    - Taste Tags: Multi-select chips (predefined list: chocolate, fruity, nutty, floral, etc.; customizable via settings).
-    - Notes: Multi-line text area.
-    - Photos: Up to 5, via camera/gallery picker (with compression and previews).
-  - Save button (brass-accented) with validation and haptic success feedback.
+### Key Components (Currently Implemented):
+- **LazyColumn** for efficient list rendering
+- **Material 3 Cards** for content containers
+- **Text elements** using custom typography system
+- **Proper spacing** and layout following Material 3 guidelines
 
-- **Entry Details View**:
-  - Tap card to expand into full-screen detail (stack push).
-  - Full notes, enlarged photo gallery (swipeable, with old paper frames), edit/delete buttons.
-  - "View on Map" button: Deep-links to Explore, centering on shop.
+### Future Implementation Planned:
+- **SQLite database** for local visit storage
+- **Visit entry forms** with ratings and photos
+- **Chronological feed** of coffee experiences
+- **Search and filtering** by date, shop, rating
+- **Photo attachments** with compression
+- **Cross-tab integration** with Explore and Favorites
 
-- **Empty State**:
-  - If no entries: Illustrative graphic (empty leather journal with coffee ring) and prompt ("Log your first visit from Explore or add one here"), with direct "Add New" button.
+## Technical Implementation
 
-- **Search/Filter**:
-  - Top search bar (leather-bordered) for querying by drink, notes, or tags.
-  - Optional nice-to-have: Global search integration if implemented.
+### **Current Code Structure**:
+```kotlin
+@Composable
+fun JournalScreen() {
+    LazyColumn(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(16.dp),
+        verticalArrangement = Arrangement.spacedBy(16.dp)
+    ) {
+        item {
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surface
+                )
+            ) {
+                Column(modifier = Modifier.padding(24.dp)) {
+                    Text(
+                        text = "Coffee Journal",
+                        style = MaterialTheme.typography.headlineMedium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text(
+                        text = "Log your coffee adventures and discoveries",
+                        style = MaterialTheme.typography.bodyLarge,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        }
 
-## User Interactions
-- **Core Flow**: Switch to Journal → Scroll feed → Tap entry → View/edit details → Save changes (local SQLite update) → Optional map navigation.
-- **Adding Entries**: From Explore/Favorites details sheets ("Add Visit Note" pre-fills shop) or directly in Journal; haptic on photo add or tag select.
-- **Cross-Tab Links**: Tap shop in entry → Navigates to Explore map; favorites sync if shop starred.
-- **Editing/Deleting**: Long-press card for context menu (edit/delete); confirm modals with haptic warnings.
-- **Error Handling**: No photos permission: Prompt modal; offline: Unaffected, as all data local.
-- **Performance**: Efficient SQLite queries; lazy-load photos for fast scrolling.
+        items(3) { index ->
+            Card(
+                modifier = Modifier.fillMaxWidth(),
+                colors = CardDefaults.cardColors(
+                    containerColor = MaterialTheme.colorScheme.surfaceVariant
+                )
+            ) {
+                Column(modifier = Modifier.padding(16.dp)) {
+                    Text(
+                        text = "Sample Visit ${index + 1}",
+                        style = MaterialTheme.typography.titleMedium,
+                        color = MaterialTheme.colorScheme.onSurface
+                    )
+                    Spacer(modifier = Modifier.height(4.dp))
+                    Text(
+                        text = "Coming soon...",
+                        style = MaterialTheme.typography.bodyMedium,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
+        }
+    }
+}
+```
 
-This tab highlights the app's journaling core, merging reflective logging with thematic design for a deeply personal, privacy-respecting coffee chronicle.
+## User Experience (Current)
+
+### **What Users See**:
+- Header card explaining the journal concept
+- Sample visit cards showing placeholder content
+- Smooth scrolling list with proper Material 3 styling
+- Consistent coffee theming throughout
+
+### **Accessibility**:
+- Proper content descriptions for screen readers
+- Scalable typography support
+- Keyboard navigation compatibility
+- High contrast text ratios
+
+## Future Features (Not Yet Implemented)
+
+### **Planned Functionality**:
+- **Visit Logging**: Date, shop, drink, rating, notes, photos
+- **Taste Tags**: Chocolate, fruity, nutty, floral, etc.
+- **Photo Gallery**: Compressed images with carousel view
+- **Search/Filter**: By shop, date, rating, tags
+- **Edit/Delete**: Full CRUD operations on entries
+- **Export**: Share or backup journal entries
+
+### **Integration Points**:
+- **Explore Tab**: "Add Note" button in place details
+- **Favorites Tab**: Link saved places to journal entries
+- **Profile Tab**: Journal statistics and preferences
+
+## Data Management (Future)
+
+- **Local SQLite Storage**: Private, offline-first database
+- **Data Models**: Visit entries with relationships
+- **Migration Support**: Schema updates over time
+- **Backup/Restore**: Optional cloud synchronization
+
+## Design Consistency
+
+- **Material 3 Components**: Cards, lists, typography
+- **Coffee Theme**: Consistent colors and styling
+- **Responsive Design**: Adapts to different screen sizes
+- **Dark/Light Mode**: Full theme compatibility
+
+## Performance Considerations
+
+- **Lazy Loading**: Efficient list rendering for large journals
+- **Image Optimization**: Compressed photos for storage
+- **Database Queries**: Optimized for fast access
+- **Memory Management**: Proper cleanup of resources
+
+This placeholder implementation establishes the visual foundation and user experience patterns for the future comprehensive journaling system.
